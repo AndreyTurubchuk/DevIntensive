@@ -23,12 +23,20 @@ public class BaseActivity extends AppCompatActivity {
             mProgressDialog.setCancelable(false);
             mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             mProgressDialog.show();
+            mProgressDialog.setContentView(R.layout.progress_splash);
+        } else {
+            mProgressDialog.show();
+            mProgressDialog.setContentView(R.layout.progress_splash);
         }
 
     }
 
     public void hideProgress(){
-
+        if (mProgressDialog != null){
+            if (mProgressDialog.isShowing()) {
+                mProgressDialog.hide();
+            }
+        }
     }
 
     public void showError(String message, Exception error){

@@ -155,6 +155,7 @@
 
        </LinearLayout>
         <ImageView
+            android:id="@+id/call_img"
             android:layout_width="@dimen/size_small_24"
             android:layout_height="@dimen/size_small_24"
             android:src="@drawable/ic_phone_in_talk_black_24dp"
