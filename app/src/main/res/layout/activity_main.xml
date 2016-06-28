@@ -22,6 +22,21 @@
         android:theme="@style/AppTheme.AppBarOverlay"
         android:background="@color/color_primary">
 
+        <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/collapsing_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:contentScrim="@color/color_primary_dark"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+        <ImageView
+            android:id="@+id/user_photo_img"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_image_size"
+            android:scaleType="centerCrop"
+            android:src="@drawable/userfoto"
+            android:fitsSystemWindows="true"/>
+
     <android.support.v7.widget.Toolbar
         android:layout_marginTop="@dimen/size_small_24"
         android:id="@+id/toolbar"
@@ -31,15 +46,18 @@
         android:titleTextColor="@color/white">
     </android.support.v7.widget.Toolbar>
 
+    </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:layout_marginTop="@dimen/size_medium_56"
+    android:scrollbars="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    android:scrollbars="vertical">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -418,12 +436,12 @@
 </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer_menu"
-        >
+        app:menu="@menu/drawer_menu">
 
     </android.support.design.widget.NavigationView>
 
