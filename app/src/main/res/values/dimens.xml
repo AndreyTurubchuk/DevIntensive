@@ -6,7 +6,8 @@
     <!-- Sizes -->
     <dimen name="size_line">1dp</dimen>
     <dimen name="size_small_24">24dp</dimen>
-    <dimen name="size_medium_32">56dp</dimen>
+    <dimen name="size_medial_32">32dp</dimen>
+    <dimen name="size_medium_56">56dp</dimen>
     <dimen name="size_large_72">72dp</dimen>
 
     <!-- Spaces between two views  -->
