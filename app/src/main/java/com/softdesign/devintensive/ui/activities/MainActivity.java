@@ -217,10 +217,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
        Snackbar.make(mCoordinatorLayout, message, Snackbar.LENGTH_LONG).show();
    }
 
+    //получение результатов из другой Activity (фото из камеры или фотогалереи)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+    private void loadPhotoFromGalery(){
+
+    }
+
+    private void loadPhotoFromCamera(){
+
+    }
+
+
+
 
 
 }
