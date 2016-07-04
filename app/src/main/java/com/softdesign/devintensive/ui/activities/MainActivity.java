@@ -1,5 +1,6 @@
 package com.softdesign.devintensive.ui.activities;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -215,4 +216,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
    private void showSnackbar(String message){
        Snackbar.make(mCoordinatorLayout, message, Snackbar.LENGTH_LONG).show();
    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
 }
