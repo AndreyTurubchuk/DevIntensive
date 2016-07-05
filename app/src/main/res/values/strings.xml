@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Турубчук Андрей</string>
+    <string name="user.profile.placeholder.image">Изменить фотографию профиля</string>
 </resources>

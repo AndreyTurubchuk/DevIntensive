@@ -2,6 +2,8 @@ package com.softdesign.devintensive.ui.activities;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.managers.DataManager;
@@ -35,8 +38,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private DataManager mDataManager;
     private int mCurrentEditMode = 0;
     private FloatingActionButton mFab;
+    private CollapsingToolbarLayout mCollapsingToolbar;
+    private AppBarLayout mAppBarLayout;
+    private AppBarLayout.LayoutParams mAppBarParams = null;
+
+
     private EditText mUserPhone, mUserMail, mUserVk, mUserGit, mUserBio;
     private List<EditText> mUserInfoViews;
+    private RelativeLayout mProfilePlaceholder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mNavigationDrawer = (DrawerLayout)findViewById(R.id.navigation_drawer);
 
         mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mProfilePlaceholder = (RelativeLayout) findViewById(R.id.profile_placeholder);
+        mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
 
         mUserPhone = (EditText)findViewById(R.id.phone_et);
         mUserMail = (EditText)findViewById(R.id.email_et);
@@ -162,6 +174,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void setupToolbar(){
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
+        mAppBarParams = (AppBarLayout.LayoutParams) mCollapsingToolbar.getLayoutParams();
+
         if (actionBar != null){
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -175,6 +189,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             userValue.setEnabled(true);
             userValue.setFocusable(true);
             userValue.setFocusableInTouchMode(true);
+
+            showProfilePlaceholder();
+                lockToolbar();
             }
         }
         else {
@@ -183,7 +200,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             userValue.setEnabled(false);
             userValue.setFocusable(false);
             userValue.setFocusableInTouchMode(false);
-            //saveUserInfoValue();
+            hideProfilePlaceholder();
+            unlockToolbar();
+            saveUserInfoValue();
             }
         }
     }
@@ -230,7 +249,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    private void hideProfilePlaceholder(){
+        mProfilePlaceholder.setVisibility(View.GONE);
 
+    }
+
+    private void showProfilePlaceholder(){
+        mProfilePlaceholder.setVisibility(View.VISIBLE);
+
+    }
+
+    private void lockToolbar(){
+        mAppBarLayout.setExpanded(true,true);
+        mAppBarParams.setScrollFlags(0);
+        mCollapsingToolbar.setLayoutParams(mAppBarParams);
+
+    }
+
+    private void unlockToolbar(){
+        mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
+        mCollapsingToolbar.setLayoutParams(mAppBarParams);
+    }
 
 
 
