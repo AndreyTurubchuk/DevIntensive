@@ -5,4 +5,5 @@
     <string name="user_profile_dialog_camera">Сделать снимок из камеры</string>
     <string name="user_profile_dialog_cancel">Отменить</string>
     <string name="user_profile_dialog_title">Изменить фотографию профиля</string>
+    <string name="user_profile_choose_message">Выберите фото</string>
 </resources>

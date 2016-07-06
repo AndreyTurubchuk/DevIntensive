@@ -4,7 +4,11 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -29,8 +33,13 @@ import android.widget.RelativeLayout;
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.managers.DataManager;
 import com.softdesign.devintensive.utils.ConstantManager;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+//import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -46,6 +55,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private CollapsingToolbarLayout mCollapsingToolbar;
     private AppBarLayout mAppBarLayout;
     private AppBarLayout.LayoutParams mAppBarParams = null;
+    private ImageView mProfileImage;
+    private File mPhotoFile = null;
+    private Uri mSelectedImage = null;
 
 
     private EditText mUserPhone, mUserMail, mUserVk, mUserGit, mUserBio;
@@ -66,6 +78,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mFab = (FloatingActionButton) findViewById(R.id.fab);
         mProfilePlaceholder = (RelativeLayout) findViewById(R.id.profile_placeholder);
         mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        mProfileImage = (ImageView) findViewById(R.id.user_photo_img);
+
         mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
 
         mUserPhone = (EditText)findViewById(R.id.phone_et);
@@ -164,7 +178,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.profile_placeholder:
-                showDialog(ConstantManager.LOAD_PORFILE_PHOTO);
+                showDialog(ConstantManager.LOAD_PROFILE_PHOTO);
                 break;
         }
 
@@ -250,13 +264,50 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     //получение результатов из другой Activity (фото из камеры или фотогалереи)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+       // super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+                        case ConstantManager.REQUEST_GALLERY_PICTURE:
+                                if (resultCode == RESULT_OK && data != null) {
+                                        mSelectedImage = data.getData();
+                                        insertProfileImage(mSelectedImage);
+                                }
+                                break;
+
+                        case ConstantManager.REQUEST_CAMERA_PICTURE:
+                                if (resultCode == RESULT_OK && mPhotoFile != null) {
+                                        mSelectedImage = Uri.fromFile(mPhotoFile);
+                                        insertProfileImage(mSelectedImage);
+                                }
+        }
+
     }
+
+
     private void loadPhotoFromGalery(){
+        Intent takeIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        takeIntent.setType("image/*");
+        startActivityForResult(Intent.createChooser(takeIntent, getString(R.string.user_profile_choose_message)), ConstantManager.REQUEST_GALLERY_PICTURE);
+
 
     }
 
     private void loadPhotoFromCamera(){
+      //  showSnackbar("Загрузить из камеры222");
+
+        Intent takeCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            mPhotoFile = createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            }
+
+        if (mPhotoFile !=null) {
+            takeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
+            startActivityForResult(takeCaptureIntent, ConstantManager.REQUEST_CAMERA_PICTURE);
+        }
+
+
 
     }
 
@@ -285,14 +336,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id){
-            case ConstantManager.LOAD_PORFILE_PHOTO:
+            case ConstantManager.LOAD_PROFILE_PHOTO:
              String[] selectItems = {getString(R.string.user_profile_dialog_gallery), getString(R.string.user_profile_dialog_camera), getString(R.string.user_profile_dialog_cancel)};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(getString(R.string.user_profile_dialog_title));
                 builder.setItems(selectItems, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int choiseItem) {
-                                switch (choiseItem){
+                            public void onClick(DialogInterface dialog, int choiceItem) {
+                                switch (choiceItem){
                                     case 0:
                                         //Загрузить из галереи
                                         loadPhotoFromGalery();
@@ -315,4 +366,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         default: return null;
         }
     }
+
+    private File createImageFile()  throws IOException{
+        String timeStamp = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+      //  String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+       // String timeStamp = new Date().toString();
+     //   String imageFileName = "JPEG_" + timeStamp + "_";
+      //  File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+
+        return image;
+
+    }
+
+    private void insertProfileImage(Uri selectedImage) {
+        Picasso.with(this)
+                .load(selectedImage)
+                .into(mProfileImage);
+              //.placeholder(R.drawable. .profile_image);
+                //
+        //mDataManager.getPreferencesManager().saveUserPhoto(selectedImage);
+
+    }
+
 }
