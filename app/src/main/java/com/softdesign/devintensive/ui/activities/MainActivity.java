@@ -1,6 +1,9 @@
 package com.softdesign.devintensive.ui.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -11,8 +14,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DialogTitle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -84,7 +89,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         mCallImg.setOnClickListener(this);
         mFab.setOnClickListener(this);
-
+        mProfilePlaceholder.setOnClickListener(this);
 
 
         setupToolbar();
@@ -157,6 +162,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     mCurrentEditMode = 0;
                 }
                 break;
+
+            case R.id.profile_placeholder:
+                showDialog(ConstantManager.LOAD_PORFILE_PHOTO);
+                break;
         }
 
     }
@@ -191,7 +200,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             userValue.setFocusableInTouchMode(true);
 
             showProfilePlaceholder();
-                lockToolbar();
+            lockToolbar();
+            mCollapsingToolbar.setExpandedTitleColor(Color.TRANSPARENT);
             }
         }
         else {
@@ -203,6 +213,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             hideProfilePlaceholder();
             unlockToolbar();
             saveUserInfoValue();
+            mCollapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white));
             }
         }
     }
@@ -271,6 +282,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mCollapsingToolbar.setLayoutParams(mAppBarParams);
     }
 
-
-
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id){
+            case ConstantManager.LOAD_PORFILE_PHOTO:
+             String[] selectItems = {getString(R.string.user_profile_dialog_gallery), getString(R.string.user_profile_dialog_camera), getString(R.string.user_profile_dialog_cancel)};
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.user_profile_dialog_title));
+                builder.setItems(selectItems, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int choiseItem) {
+                                switch (choiseItem){
+                                    case 0:
+                                        //Загрузить из галереи
+                                        loadPhotoFromGalery();
+                                        showSnackbar("Загрузить из галереи");
+                                        break;
+                                    case 1:
+                                        //Загрузить из камеры
+                                        loadPhotoFromCamera();
+                                        showSnackbar("Загрузить из камеры");
+                                        break;
+                                    case 2:
+                                        //отменить
+                                        dialog.cancel();
+                                        showSnackbar("Отмена");
+                                        break;
+                                }
+                            }
+                });
+             return builder.create();
+        default: return null;
+        }
+    }
 }
