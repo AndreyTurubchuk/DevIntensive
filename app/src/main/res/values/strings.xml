@@ -14,4 +14,10 @@
     <string name="user_hint_email">E-mail</string>
     <string name="user_text_phone">8-911-592-00-00</string>
     <string name="user_hint_phone">Мобильный</string>
+    <string name="hint_password">Пароль</string>
+    <string name="login_btn_text">Войти</string>
+    <string name="login_forgot_passwd">Забыли пароль?</string>
+    <string name="login_main_text">Войти</string>
+    <string name="hint_email">E-mail</string>
+    <string name="text_email">example.com</string>
 </resources>

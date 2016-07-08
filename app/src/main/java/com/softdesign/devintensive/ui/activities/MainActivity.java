@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         loadUserInfoValue();
         Picasso.with(this)
                 .load(mDataManager.getPreferencesManager().loadUserPhoto())
-                .placeholder(R.drawable.userfoto) //TO DO  07.07.2016 сделать плейсхолдеры и transform
+                .placeholder(R.drawable.login_bg)
                 .into(mProfileImage);
 
         if (savedInstanceState == null){//Активити запускается впервые
@@ -169,9 +169,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         outState.putInt(ConstantManager.EDIT_MODE_KEY, mCurrentEditMode);
     }
 
-
   @Override
-    public void onClick(View v) {
+    public void onClick(View v) { //метод обработки нажатий на элементы
         switch (v.getId()) {
             case R.id.fab:
                 if (mCurrentEditMode == 0) {
@@ -217,7 +216,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         mAppBarParams = (AppBarLayout.LayoutParams) mCollapsingToolbar.getLayoutParams();
-
         if (actionBar != null){
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -231,7 +229,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             userValue.setEnabled(true);
             userValue.setFocusable(true);
             userValue.setFocusableInTouchMode(true);
-
             showProfilePlaceholder();
             lockToolbar();
             mCollapsingToolbar.setExpandedTitleColor(Color.TRANSPARENT);
@@ -264,26 +261,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         mDataManager.getPreferencesManager().saveUserProfileData(userData);
     }
-      private void setupDrawer(){
-                NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-                navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                        @Override
-                        public boolean onNavigationItemSelected(MenuItem item) {
-                                showSnackbar(item.getTitle().toString());
-                                item.setChecked(true);
-                                mNavigationDrawer.closeDrawer(GravityCompat.START);
-                                return false;
-                            }
-                    });
-      }
-   private void showSnackbar(String message){
+    private void setupDrawer(){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                   showSnackbar(item.getTitle().toString());
+                   item.setChecked(true);
+                   mNavigationDrawer.closeDrawer(GravityCompat.START);
+                   return false;
+            }
+        });
+    }
+    private void showSnackbar(String message){
        Snackbar.make(mCoordinatorLayout, message, Snackbar.LENGTH_LONG).show();
-   }
+    }
 
     //получение результатов из другой Activity (фото из камеры или фотогалереи)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
                         case ConstantManager.REQUEST_GALLERY_PICTURE:
                                 if (resultCode == RESULT_OK && data != null) {
@@ -301,51 +297,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-
     private void loadPhotoFromGalery(){
         Intent takeIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         takeIntent.setType("image/*");
         startActivityForResult(Intent.createChooser(takeIntent, getString(R.string.user_profile_choose_message)), ConstantManager.REQUEST_GALLERY_PICTURE);
-
-
     }
 
     private void loadPhotoFromCamera(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
             && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
             Intent takeCaptureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             try {
                 mPhotoFile = createImageFile();
             } catch (IOException e) {
                 e.printStackTrace();
 
-            }
+              }
 
             if (mPhotoFile != null) {
                 takeCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mPhotoFile));
                 startActivityForResult(takeCaptureIntent, ConstantManager.REQUEST_CAMERA_PICTURE);
             }
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-            }, ConstantManager.CAMERA_REQUEST_PERMISSION_CODE);
-
-          Snackbar.make(mCoordinatorLayout, "Для корректной работы приложения необходимо дать требуемые разрешения", Snackbar.LENGTH_LONG)
+                  ActivityCompat.requestPermissions(this, new String[]{
+                      Manifest.permission.CAMERA,
+                      Manifest.permission.WRITE_EXTERNAL_STORAGE
+                  }, ConstantManager.CAMERA_REQUEST_PERMISSION_CODE);
+                  Snackbar.make(mCoordinatorLayout, "Для корректной работы приложения необходимо дать требуемые разрешения", Snackbar.LENGTH_LONG)
                   .setAction("Разрешить", new View.OnClickListener() {
                       @Override
                       public void onClick(View view) {
                           openApplicationSettings();
                       }
                   }) .show();
-
-        }
-
-
-
-
-
+               }
     }
 
     @Override
@@ -355,30 +340,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                //TODO 07.07.2016 обрабатываем разрешение (разрешение получено)
                // например вывести сообщение или обработать какой-то логикой
            }
-
            if (grantResults[1] == PackageManager.PERMISSION_GRANTED){
                //TODO 07.07.2016 обрабатываем разрешение (разрешение получено)
                // например вывести сообщение или обработать какой-то логикой
            }
        }
-
     }
 
     private void hideProfilePlaceholder(){
         mProfilePlaceholder.setVisibility(View.GONE);
-
     }
 
     private void showProfilePlaceholder(){
         mProfilePlaceholder.setVisibility(View.VISIBLE);
-
     }
 
     private void lockToolbar(){
         mAppBarLayout.setExpanded(true,true);
         mAppBarParams.setScrollFlags(0);
         mCollapsingToolbar.setLayoutParams(mAppBarParams);
-
     }
 
     private void unlockToolbar(){
@@ -398,19 +378,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             public void onClick(DialogInterface dialog, int choiceItem) {
                                 switch (choiceItem){
                                     case 0:
-                                        //Загрузить из галереи
                                         loadPhotoFromGalery();
-                                      //  showSnackbar("Загрузить из галереи");
                                         break;
                                     case 1:
-                                        //Загрузить из камеры
                                         loadPhotoFromCamera();
-                                       // showSnackbar("Загрузить из камеры");
                                         break;
                                     case 2:
-                                        //отменить
                                         dialog.cancel();
-                                      //  showSnackbar("Отмена");
                                         break;
                                 }
                             }
@@ -430,25 +404,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         values.put(MediaStore.MediaColumns.DATA, image.getAbsolutePath());
         this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
         return image;
-
     }
 
     private void insertProfileImage(Uri selectedImage) {
         Picasso.with(this)
                 .load(selectedImage)
+                .placeholder(R.drawable.login_bg)
                 .into(mProfileImage);
-        //TO DO  07.07.2016 сделать плейсхолдеры и transform
-              //.placeholder(R.drawable. .profile_image);
-                //
-        mDataManager.getPreferencesManager().saveUserPhoto(selectedImage);
-
+                mDataManager.getPreferencesManager().saveUserPhoto(selectedImage);
     }
 
     public void openApplicationSettings(){
         Intent appSettingsIntent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
         startActivityForResult(appSettingsIntent, ConstantManager.PERMISSION_REQUEST_SETTINGS_CODE);
     }
-
-}
+  }
