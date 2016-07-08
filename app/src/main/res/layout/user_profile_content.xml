@@ -146,9 +146,9 @@
                         android:id="@+id/phone_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Мобильный"
+                        android:hint="@string/user_hint_phone"
                         android:inputType="phone"
-                        android:text="8-911-592-00-00"
+                        android:text="@string/user_text_phone"
                         android:enabled="false"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
@@ -157,7 +157,7 @@
 
             </LinearLayout>
             <ImageView
-                android:id="@+id/call_img"
+                android:id="@+id/phone_view"
                 android:layout_width="@dimen/size_small_24"
                 android:layout_height="@dimen/size_small_24"
                 android:src="@drawable/ic_phone_in_talk_black_24dp"
@@ -199,9 +199,9 @@
                         android:id="@+id/email_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="E-mail"
+                        android:hint="@string/user_hint_email"
                         android:inputType="textEmailAddress"
-                        android:text="example@rambler.ru"
+                        android:text="@string/user_text_email"
                         android:enabled="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
@@ -210,6 +210,7 @@
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <ImageView
+                android:id="@+id/email_view"
                 android:layout_width="@dimen/size_small_24"
                 android:layout_height="@dimen/size_small_24"
                 android:src="@drawable/ic_send_black_24dp"
@@ -248,12 +249,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/profileVK_et"
+                        android:id="@+id/VK_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Профиль в VK"
+                        android:hint="@string/user_hint_VK"
                         android:inputType="text"
-                        android:text="vk.com/id61945333"
+                        android:text="@string/user_text_VK"
                         android:enabled="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
@@ -261,6 +262,7 @@
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <ImageView
+                android:id="@+id/Vk_view"
                 android:layout_width="@dimen/size_small_24"
                 android:layout_height="@dimen/size_small_24"
                 android:src="@drawable/eye"
@@ -297,12 +299,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/repo_et"
+                        android:id="@+id/git_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Репозиторий"
+                        android:hint="@string/user_hint_git"
                         android:inputType="text"
-                        android:text="https://github.com/AndreyTurubchuk/DevIntensive"
+                        android:text="@string/user_text_git"
                         android:enabled="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/grey"
@@ -310,6 +312,7 @@
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <ImageView
+                android:id="@+id/git_view"
                 android:layout_width="@dimen/size_small_24"
                 android:layout_height="@dimen/size_small_24"
                 android:src="@drawable/eye"
@@ -346,7 +349,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/aboutMe_et"
+                        android:id="@+id/bio_et"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="Обо мне"

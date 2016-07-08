@@ -6,4 +6,12 @@
     <string name="user_profile_dialog_cancel">Отменить</string>
     <string name="user_profile_dialog_title">Изменить фотографию профиля</string>
     <string name="user_profile_choose_message">Выберите фото</string>
+    <string name="user_text_VK">vk.com/id61945030</string>
+    <string name="user_text_git">https://github.com/AndreyTurubchuk/DevIntensive</string>
+    <string name="user_hint_git">Репозиторий</string>
+    <string name="user_hint_VK">Профиль в VK</string>
+    <string name="user_text_email">antur1977@rambler.ru</string>
+    <string name="user_hint_email">E-mail</string>
+    <string name="user_text_phone">8-911-592-00-00</string>
+    <string name="user_hint_phone">Мобильный</string>
 </resources>
