@@ -1,4 +1,6 @@
 <resources>
+    <string name="ff_regular">sans-serif</string>
+    <string name="ff_medium">sans-serif-medium</string>
     <string name="app_name">Турубчук Андрей</string>
     <string name="user.profile.placeholder.image">Изменить фотографию профиля</string>
     <string name="user_profile_dialog_gallery">Загрузить из галереи</string>
@@ -20,4 +22,11 @@
     <string name="login_main_text">Войти</string>
     <string name="hint_email">E-mail</string>
     <string name="text_email">example.com</string>
+
+    <!-- AuthActivity -->
+    <string name="auth.authorization_enter">Войти</string>
+    <string name="auth.email">Введите e-mail</string>
+    <string name="auth.password">Введите пароль</string>
+    <string name="auth.login">Войти</string>
+    <string name="auth.remember">Забыли пароль?</string>
 </resources>

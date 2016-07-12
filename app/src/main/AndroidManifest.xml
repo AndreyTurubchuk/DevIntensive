@@ -3,9 +3,12 @@
           package="com.softdesign.devintensive">
 
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.hardware.camera2" android:required = "false"/>
-    <uses-permission android:name="android.hardware.camera2.autofocus" android:required = "false"/>
-
+    <uses-permission
+        android:name="android.hardware.camera2"
+        android:required="false"/>
+    <uses-permission
+        android:name="android.hardware.camera2.autofocus"
+        android:required="false"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
@@ -16,7 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activities.MainActivity">
-        <!--<activity android:name=".ui.activities.login">-->
+
+            <!-- <activity android:name=".ui.activities.login"> -->
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter> -->
+        </activity>
+        <activity android:name=".ui.activities.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
